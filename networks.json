@@ -1,0 +1,8 @@
+{
+  "base-sepolia": {
+    "Factory": {
+      "address": "0xAfAB0718Da965a8A8662Fc97CafD9FA99303820b",
+      "startBlock": 13770123
+    }
+  }
+}
