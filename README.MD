@@ -1,35 +1,127 @@
+My Subgraph
+This subgraph indexes and tracks decentralized exchange (DEX) pairs, reserves, swaps, and other relevant events on the Ethereum blockchain. It provides a convenient way to query historical and real-time data, such as reserve balances, swap transactions, and more.
+
+Table of Contents
+Overview
+Getting Started
+Entities
+Event Handlers
+Queries
+Pair Details
+Reserve Data
+Deployment
+Contributing
+License
+Overview
+This subgraph indexes data from a DEX smart contract, capturing events such as pair creation, liquidity synchronization (Sync events), and token swaps (Swap events). It stores this data in a way that allows developers to easily query and analyze it.
+
+Getting Started
+Prerequisites
+Before you begin, ensure you have the following installed:
+
+Node.js
+Yarn
+Graph CLI
+Installation
+Clone the repository and install dependencies:
+
+bash
+Copy code
+git clone https://github.com/your-repo/subgraph.git
+cd subgraph
+yarn install
+Configuration
+Update the subgraph.yaml file with the correct network, contract addresses, and event signatures. Ensure that the ABI files match the deployed contracts.
+
+Code Structure
+schema.graphql: Defines the GraphQL schema, including entities like Pair, Reserve, and Swap.
+subgraph.yaml: Specifies the data sources, ABI, entities, and event handlers.
+src/: Contains the TypeScript files for handling events and mapping data to entities.
+Building and Deploying
+Build and deploy the subgraph using the Graph CLI:
+
+bash
+Copy code
+graph codegen && graph build
+graph auth --studio YOUR_DEPLOY_KEY
+graph deploy --studio YOUR_SUBGRAPH_NAME
+Replace YOUR_DEPLOY_KEY and YOUR_SUBGRAPH_NAME with your actual deploy key and subgraph name.
+
+Entities
+Pair
+Tracks details about a DEX pair, including token addresses, reserves, and metadata.
+
+Reserve
+Stores reserve data from Sync events, capturing historical balances and timestamps.
+
+Event Handlers
+handlePairCreated
+Triggered when a new pair is created. Starts tracking the new pair.
+
+handleSync
+Triggered on Sync events to record reserve balances and associated metadata.
+
+Queries
+Pair Details
+Fetch details about a specific pair:
+
+graphql
+Copy code
 {
-  pairCreateds(first: 5) {
+  pair(id: "PAIR_ID") {
     id
     tokenA
     tokenB
-    pair
+    totalSupply
+    blockNumber
+    blockTimestamp
+    transactionHash
   }
-  reserves(first: 5) {
-    id
+}
+Reserve Data
+Fetch reserve data for a specific pair within a timestamp range:
+
+graphql
+Copy code
+{
+  reserves(
+    where: {
+      pair: "PAIR_ADDRESS",
+      blockTimestamp_gte: "START_TIMESTAMP",
+      blockTimestamp_lte: "END_TIMESTAMP"
+    }
+    orderBy: blockTimestamp
+    orderDirection: asc
+  ) {
     reserve0
     reserve1
     blockNumber
+    blockTimestamp
+    transactionHash
   }
 }
 
+Deployment
+To deploy the subgraph, follow these steps:
 
-{
-  "data": {
-    "pairCreateds": [
-      {
-        "id": "0x08aee9264126ef1798a212c41bf32102ca0549db173a8a754d2bedc5c044cefe02000000",
-        "tokenA": "0xa7d07211ffa3b3dc0980301d34fa7a2e6301f912",
-        "tokenB": "0x4200000000000000000000000000000000000006",
-        "pair": "0xee98f0bf770428c862531fcf18eba6e91753043e"
-      },
-      {
-        "id": "0x455a5dd2b894316fde584187da58ec33ba255ea24adf4966f72579e3d6e0b1ea02000000",
-        "tokenA": "0xc42cbb31eab2ac6e56a82f986ab5c3fbb78cf3b1",
-        "tokenB": "0x4200000000000000000000000000000000000006",
-        "pair": "0xa03f44efb5ce939b26ca2d45780a34f56758d894"
-      }
-    ],
-    "reserves": []
-  }
-}
+Ensure your subgraph is correctly configured in subgraph.yaml.
+
+Build the subgraph:
+
+bash
+Copy code
+graph build
+Deploy the subgraph:
+
+bash
+Copy code
+graph deploy --studio YOUR_SUBGRAPH_NAME
+Replace YOUR_SUBGRAPH_NAME with your subgraph name in the Graph Studio.
+
+Contributing
+Contributions are welcome! Please open an issue or submit a pull request to contribute.
+
+License
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+This README provides an overview of the subgraph, setup instructions, and details on how to interact with the indexed data. You can modify and expand this template as needed to fit your specific project and requirements.

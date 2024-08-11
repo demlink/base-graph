@@ -45,10 +45,4 @@ templates:
       eventHandlers:
         - event: Sync(uint256,uint256)
           handler: handleSync
-        - event: Mint(uint256,uint256,address)
-          handler: handleMint
-        - event: Burn(uint256,uint256,address)
-          handler: handleBurn
-        - event: Swap(uint256,uint256,uint256,uint256)
-          handler: handleSwap
       file: ./src/pair.ts
