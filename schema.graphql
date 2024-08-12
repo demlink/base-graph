@@ -10,11 +10,12 @@ type PairCreated @entity(immutable: true) {
 }
 
 type Reserve @entity {
-  id: String!                  # Unique identifier for this reserve event (e.g., transaction hash + log index)
-  reserve0: BigInt!            # Reserve amount of token0 (in smallest unit, e.g., wei)
-  reserve1: BigInt!            # Reserve amount of token1 (in smallest unit, e.g., wei)
-  blockNumber: BigInt!         # Block number when the reserve was recorded
-  blockTimestamp: BigInt!      # Timestamp of the block when the reserve was recorded
-  transactionHash: String!      # Transaction hash of the event
-  pair: String!                # Address of the pair contract
+  id: String! # Unique identifier for this reserve event (e.g., transaction hash + log index)
+  reserve0: BigInt! # Reserve amount of token0 (in smallest unit, e.g., wei)
+  reserve1: BigInt! # Reserve amount of token1 (in smallest unit, e.g., wei)
+  priceInETH: BigDecimal! # price in eth
+  blockNumber: BigInt! # Block number when the reserve was recorded
+  blockTimestamp: BigInt! # Timestamp of the block when the reserve was recorded
+  transactionHash: String! # Transaction hash of the event
+  pair: String! # Address of the pair contract
 }

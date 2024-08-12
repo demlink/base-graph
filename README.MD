@@ -95,6 +95,7 @@ Copy code
   ) {
     reserve0
     reserve1
+    priceInETH
     blockNumber
     blockTimestamp
     transactionHash
