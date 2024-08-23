@@ -8,9 +8,9 @@ dataSources:
     name: Factory
     network: base-sepolia
     source:
-      address: "0xAfAB0718Da965a8A8662Fc97CafD9FA99303820b"
+      address: "0xB8980EA833dCe32A63368586830344dEDBc812AB"
       abi: Factory
-      startBlock: 13770123
+      startBlock: 14294742
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -22,6 +22,8 @@ dataSources:
           file: ./abis/Factory.json
         - name: Pair
           file: ./abis/Pair.json
+        - name: ERC20
+          file: ./abis/ERC20.json
       eventHandlers:
         - event: PairCreated(indexed address,indexed address,address,uint256)
           handler: handlePairCreated
@@ -39,10 +41,32 @@ templates:
       entities:
         - Pair
         - Token
+        - Holder
       abis:
         - name: Pair
           file: ./abis/Pair.json
+        - name: ERC20
+          file: ./abis/ERC20.json
       eventHandlers:
         - event: Sync(uint256,uint256)
           handler: handleSync
       file: ./src/pair.ts
+  - kind: ethereum
+    name: Token
+    network: base-sepolia
+    source:
+      abi: ERC20
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Token
+        - Holder
+      abis:
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/tokenTemplate.ts

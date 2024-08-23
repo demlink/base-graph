@@ -19,3 +19,18 @@ type Reserve @entity {
   transactionHash: String! # Transaction hash of the event
   pair: String! # Address of the pair contract
 }
+
+type Holder @entity {
+  id: ID!
+  address: Bytes!
+  balance: BigInt!
+  token: Token!
+}
+
+type Token @entity {
+  id: ID!
+  name: String!
+  symbol: String!
+  supply: BigInt!
+  holders: [Holder!]! @derivedFrom(field: "token")
+}
