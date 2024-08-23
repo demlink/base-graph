@@ -24,6 +24,7 @@ type Holder @entity {
   id: ID!
   address: Bytes!
   balance: BigInt!
+  percentage: BigDecimal!
   token: Token!
 }
 
